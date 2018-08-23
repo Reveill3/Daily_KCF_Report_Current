@@ -1,0 +1,67 @@
+.blue   {
+    font-size: 12pt;
+    color: blue;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.red   {
+    font-size: 12pt;
+    color: red;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.green   {
+    font-size: 12pt;
+    color: green;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.purple   {
+    font-size: 12pt;
+    color: purple;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.gold   {
+    font-size: 12pt;
+    color: gold;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.silver   {
+    font-size: 12pt;
+    color: silver;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.onyx   {
+    font-size: 12pt;
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+.boldunder   {
+    font-size: 11pt;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.greensig {
+    font-family: Arial;
+    font-size: 8pt;
+    font-weight: bold;
+    color: green;
+}
+
+.signature {
+    font-family: Arial;
+    font-size: 8pt;
+}
