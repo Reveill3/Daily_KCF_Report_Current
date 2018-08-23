@@ -115,7 +115,7 @@ def send_email(smallest, largest, averageda, color, tags, top_change_list=[], to
 
     <body>
         <p>
-            <h1 class=""" + color.lower() + """>""" + color + """</h1>
+            <h1 class=""" + color.lower() + """>""" + color.title() + """</h1>
             <h2 class="boldunder">24 Hour Summary:</h2>
         </p>
 
