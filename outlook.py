@@ -3,7 +3,7 @@ import csv
 import datetime
 
 
-def send_email(smallest, largest, averageda, color, tags, top_change_list=[], top_percent_list=[]):
+def send_email(smallest, largest, averageda, color, tags, top_change_list=[], top_percent_list=[], trend=''):
     try:
         if top_change_list:
             top_change_html = """<p>
@@ -17,6 +17,12 @@ def send_email(smallest, largest, averageda, color, tags, top_change_list=[], to
     except IndexError:
         top_change_html = ''
 
+    if trend == 'fluid':
+        trendtext = """<h4>THIS SUMMARY IS FOR FLUID END SENSORS</h4>"""
+        tagtext = """<p class="boldunder">/""" + str(tags) + """ required tags</p>"""
+    else:
+        trendtext = """<h4 style='color:blue;'>THIS SUMMARY IS FOR POWER END SENSORS</h4>"""
+        tagtext = ''
     with open('emails.csv') as csvfile:
         emailreader = csv.reader(csvfile)
         labels = ['blueto', 'bluecc', 'onyxto', 'onyxcc',
@@ -117,9 +123,7 @@ def send_email(smallest, largest, averageda, color, tags, top_change_list=[], to
         <p>
             <h1 class=""" + color.lower() + """>""" + color.title() + """</h1>
             <h2 class="boldunder">24 Hour Summary:</h2>
-        </p>
-
-        <p>
+        </p>""" + trendtext +    """<p>
             <span class="bold">DA Score:</span>
             <span>""" + str(averageda) + """</span>
         </p>""" + top_change_html + """<p>
@@ -134,9 +138,7 @@ def send_email(smallest, largest, averageda, color, tags, top_change_list=[], to
             <span>""" + str(smallest[0]) + """</span><br />
             <span>""" + str(smallest[1]) + """</span><br />
             <span>""" + str(smallest[2]) + """</span><br />
-        </p>
-        <p class="boldunder">/""" + str(tags) + """ required tags</p>
-        <b><p style="font-size: 10pt">
+        </p>""" + tagtext + """<b><p style="font-size: 10pt">
             Thank You,
         </p></b>
         <span class="greensig">Austin Lester</span><br />

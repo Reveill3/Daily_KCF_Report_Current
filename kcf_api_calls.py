@@ -38,7 +38,7 @@ def find_condor(df, column):
                            (?P<pump>[0-9]+)
                            ?\s>
                             ''', df[column][0], re.X).group(1))
-    except TypeError:
+    except (TypeError, AttributeError) as e:
         return 0
 
 
@@ -55,10 +55,17 @@ def remove_condor_list(pumplist):
     return pumplist
 
 
-def get_indicators(group_id):
+def get_indicators(group_id, trend):
     """Makes request to KCF server to get all indicators(sensors) for given group(crew)"""
+    if trend == 'fluid':
+        filterid = 'b7f2f0e9-3e95-e611-afad-128b505ae989'
+    elif trend == 'power':
+        filterid = 'b1b8d14e-f9c6-e611-b39d-12023ba42200'
+    else:
+        return 'trend must be "power" or "fluid".'
+
     request = requests.get('https://sd.kcftech.com/api2/groups/' + group_id +
-                           '/filteredIndicators/filterId?filterId=b7f2f0e9-3e95-e611-afad-128b505ae989&pageLimit='
+                           '/filteredIndicators/filterId?filterId=' + filterid + '&pageLimit='
                            '71&page=0&systemId=' + group_id, headers={'cookie': cookie})
     indicators = []
     for indicator in request.json()['IndicatorSubsetModels']:
@@ -183,13 +190,14 @@ if __name__ == '__main__':
     start = input('Enter start date and time(YYYY-MM-DD 00:00): ')
     end = input('Enter end date and time: (YYYY-MM-DD 00:00)')
     combined_directory = input('Where are you storing your csv files? ')
+    trend = input('Power End of Fluid End? (Enter "fluid" or "power"): ')
     print(os.path.join(os.path.join(combined_directory, r'combined')))
     indicator_dict = {
-        # 'onyx': get_indicators(onyx_group_id),
-        'blue': get_indicators(blue_group_id),
-        'green': get_indicators(green_group_id),
-        'gold': get_indicators(gold_group_id),
-        'red': get_indicators(red_group_id),
+        'onyx': get_indicators(onyx_group_id, trend),
+        'blue': get_indicators(blue_group_id, trend),
+        'green': get_indicators(green_group_id, trend),
+        'gold': get_indicators(gold_group_id, trend),
+        'red': get_indicators(red_group_id, trend),
     }
 
     for crew in indicator_dict:
@@ -206,16 +214,24 @@ if __name__ == '__main__':
                                (?P<pump>[0-9]+)
                                ?\s>
                                 ''', data, re.X)
-
-                holes = re.findall(r'''
-                           >\s\w{2}\s>\s
-                           (?P<hole>\w+\s\d\s\w+)
-                            ''', data, re.X)
+                if trend == 'fluid':
+                    holes = re.findall(r'''
+                               >\s\w+\s>\s
+                               (?P<hole>\w+\s\d\s\w+)
+                                ''', data, re.X)
+                else:
+                    holes = re.findall(r'''
+                               >\s\w+\s\w+\s\w+\s>\s
+                               (?P<hole>\w+\s\d\s\w+)
+                                ''', data, re.X)
             df = build_df(os.path.join(os.path.join(
                 combined_directory, r'combined'), file), pumplist, holes)
             tag_df = df[df > 5]
             tag_df.fillna(0, inplace=True)
-            tags = count_tags(tag_df)
+            if trend == 'fluid':
+                tags = count_tags(tag_df)
+            else:
+                tags = 0
             kcf_greater = df[df > .65]
             unique_pump_list = []
             for pump in pumplist:
@@ -247,11 +263,12 @@ if __name__ == '__main__':
                     percent_diff = percent_diff[percent_diff > 0]
                     pump_change = percent_diff.nlargest(n=3).round().index.tolist()
                     percent_change = percent_diff.nlargest(n=3).round().tolist()
+                    percent_diff.to_csv('C:\\Users\\austi\\Desktop\\React Nanodegree\\MyReads Project\\myreads\\Daily_KCF_Report_Current\\test\\' + file)
             if pump_change:
                 outlook.send_email(smallest, largest, averageDA,
-                                   file[:-4], tags, pump_change, percent_change)
+                                   file[:-4], tags, top_change_list=pump_change, top_percent_list=percent_change, trend=trend)
             else:
-                outlook.send_email(smallest, largest, averageDA, file[:-4], tags)
+                outlook.send_email(smallest, largest, averageDA, file[:-4], tags, trend=trend)
             os.remove(os.path.join(os.path.join(combined_directory, r'combined'), file))
 
             kcf_final.to_csv(os.path.join(combined_directory, r'combined') + '\\yesterday\\' + file,
