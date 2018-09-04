@@ -16,15 +16,9 @@ red_group_id = 'e50f795d-5536-e711-a50a-12b24a70675e'
 group_list = [green_group_id, onyx_group_id, blue_group_id, gold_group_id, red_group_id]
 
 # This makes KCF server think its me pulling the data.
-cookie = '_ga=GA1.2.1643262233.1527435967; _gid=GA1.2.1370627560.1534353988; ' \
-         '.AspNetCore.Identity.Application=CfDJ8OyCBziJ_lRLrJtvjzn8I5Knf0dPG9IR-01pjzB1BJbRXlv2Ssu9afAWrJJ0lQyI9o9vZ7VJ' \
-         'gSpgm3k7f--H3GXKB3kFjllU853Aj9w5C6MsUminBAU4lm7tBMRlPsv3ZgPqWHUnr60hUBPTFQWcSBADZ-Qmren7sbVcziD14jR-9Rd5Mt5I' \
-         'w5_MMidHG8noahu__PaytiRgWx_ZispenLkQGI9_u9E0GvcnBgcH2iCh0xBS7TwxLkrbUXEUlSvGlYuuF3367wz99vkBTIVRevpa28tULSJ5' \
-         '4oG8ep_wIiOYORWaOr-d8AkKBma1KAfAlxLqc8no_tiUNgdS_oLKUkqt3OQcOWssI7e74icE4BMt_4Lwpz5v__D-m-akNXFb2YztxbYu-fbae' \
-         'd1Q8lwGm1fliVSV1GNHhyr7xXQLbMaQj-v4w4yff8eZdA_h6xvgzWQ2i-OfYETR4OuHeDRcXMcTVuB41C0HZ0qKJNw6NMJgjE6CgpMxcGEf87' \
-         '2FwGtsXFCwZ_R7H15JWE4DkIh0wd1qCUo_Y9XyW7tfODQMbZ9Xls_bqG6HZq0m80FepuBw5nsHqEVgdCT642uldTtQoWw; _gat=1; ' \
-         'AWSALB=RwcC/B99CgBf3K1nKRkFzQ3Jf1n8ez1tHUymoO5d64D5rhMlKMi8SkcHWVG6GEWlJgMIF2DlOEv0RTUv4d4rA1TaZitms/Q/U4' \
-         'oTzcoa41meMjnBOoGYQZSqcv92'
+cookie = '_ga=GA1.2.1849590024.1523893312; _gid=GA1.2.744640439.1535555200; ' \
+         '.AspNetCore.Identity.Application=CfDJ8OyCBziJ_lRLrJtvjzn8I5KbwWZeic_kt5Vv6RH7roG6j1mMezRHCrk6PmvajQz60YJkgN178J8AbcoBenvTbDQyBemnN8l5BYZhWOdvh7cLR2cB6PE0r1TePixtLf8YAG8E5i8QijdcSx_Ui5RGo_oAYeFeuZD3Pe6vL8-Or2yFdPBSTNE2S-cPGth7HqPJ1tALrtxudxn7mgR6IT7gatkp5QpQPvhV-_-p-HDf8RDIytmMewbyGfPAp-r2NxiYfVy5HxSckfBW33wiNzz204XY-J6JhaPkfSZXLmQHS_HgAYOTFo82mPZegNIE7oQB9wuTphjrLP5BxHSbxtKgfXXlrs_lFVfF3Xj54EcxyN4DfnzyeJdvG4sNndkY2JLwCeD91qke71hxlWPs4f8SMRxJzrqZCwzAx6fisj-FjCLb30EaCT6cn7ZPqKM7GGsUW-hHrOpWWBDmXEsqwqiXK7CyO8XhpBsEqYCmwZ7Fe2hudpWPgkl06f-AYlNMBuBJd_I6n4RHCvIwfsXeglS7kClC-CbDzuA8-OKTdCaPVZqLH0cpyUCeJG7E1AnQ_iwWJUwzurXHkTECormGYj6pG3o; _gat=1; ' \
+         'AWSALB=t7C3S+qzZygH09Blyzff5ojtQkQ1VSO42wrzBCYym8KRrjWEilul/YAFWumvOINjRUIqa9aa1cPKpBsD4oU/S+XkXTU2oyZGx1CbaQe7eVMhGtuhwaSM5uDgYGJp'
 
 # removes condors from list. Will need to be updated to removed condors from other districts
 condors = ['41', '44', '43', '45', '120', '121', '122', '134', '147',
@@ -194,7 +188,7 @@ if __name__ == '__main__':
     print(os.path.join(os.path.join(combined_directory, r'combined')))
     indicator_dict = {
         'onyx': get_indicators(onyx_group_id, trend),
-        'blue': get_indicators(blue_group_id, trend),
+        # 'blue': get_indicators(blue_group_id, trend),
         'green': get_indicators(green_group_id, trend),
         'gold': get_indicators(gold_group_id, trend),
         'red': get_indicators(red_group_id, trend),
