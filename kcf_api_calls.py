@@ -257,7 +257,6 @@ if __name__ == '__main__':
                     percent_diff = percent_diff[percent_diff > 0]
                     pump_change = percent_diff.nlargest(n=3).round().index.tolist()
                     percent_change = percent_diff.nlargest(n=3).round().tolist()
-                    percent_diff.to_csv('C:\\Users\\austi\\Desktop\\React Nanodegree\\MyReads Project\\myreads\\Daily_KCF_Report_Current\\test\\' + file)
             if pump_change:
                 outlook.send_email(smallest, largest, averageDA,
                                    file[:-4], tags, top_change_list=pump_change, top_percent_list=percent_change, trend=trend)
