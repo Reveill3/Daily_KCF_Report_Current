@@ -16,9 +16,7 @@ red_group_id = 'e50f795d-5536-e711-a50a-12b24a70675e'
 group_list = [green_group_id, onyx_group_id, blue_group_id, gold_group_id, red_group_id]
 
 # This makes KCF server think its me pulling the data.
-cookie = '_ga=GA1.2.1849590024.1523893312; _gid=GA1.2.744640439.1535555200; ' \
-         '.AspNetCore.Identity.Application=CfDJ8OyCBziJ_lRLrJtvjzn8I5KbwWZeic_kt5Vv6RH7roG6j1mMezRHCrk6PmvajQz60YJkgN178J8AbcoBenvTbDQyBemnN8l5BYZhWOdvh7cLR2cB6PE0r1TePixtLf8YAG8E5i8QijdcSx_Ui5RGo_oAYeFeuZD3Pe6vL8-Or2yFdPBSTNE2S-cPGth7HqPJ1tALrtxudxn7mgR6IT7gatkp5QpQPvhV-_-p-HDf8RDIytmMewbyGfPAp-r2NxiYfVy5HxSckfBW33wiNzz204XY-J6JhaPkfSZXLmQHS_HgAYOTFo82mPZegNIE7oQB9wuTphjrLP5BxHSbxtKgfXXlrs_lFVfF3Xj54EcxyN4DfnzyeJdvG4sNndkY2JLwCeD91qke71hxlWPs4f8SMRxJzrqZCwzAx6fisj-FjCLb30EaCT6cn7ZPqKM7GGsUW-hHrOpWWBDmXEsqwqiXK7CyO8XhpBsEqYCmwZ7Fe2hudpWPgkl06f-AYlNMBuBJd_I6n4RHCvIwfsXeglS7kClC-CbDzuA8-OKTdCaPVZqLH0cpyUCeJG7E1AnQ_iwWJUwzurXHkTECormGYj6pG3o; _gat=1; ' \
-         'AWSALB=t7C3S+qzZygH09Blyzff5ojtQkQ1VSO42wrzBCYym8KRrjWEilul/YAFWumvOINjRUIqa9aa1cPKpBsD4oU/S+XkXTU2oyZGx1CbaQe7eVMhGtuhwaSM5uDgYGJp'
+cookie = '_ga=GA1.2.636763964.1536756301; _gid=GA1.2.196813936.1537723441; .AspNetCore.Identity.Application=CfDJ8PxB3LM_OtRCn2-bWJr4RL4rBbY6YHVqzoXBZHrHIMlrOiUIuEIFW365Qo84OoZ2bRDY_PUOlJD6nTDlMcOeJi25IUY-Ejvd56ubUicZpMhTezoYQHyrqa-31G0BiOmHDUPkvq7KI4qDN4Sw3m9SmFemSFwn8BFRiGNKTn58ql5kygNl6c2JoMTuGDTqW7zSUDBV_fYDHHg8vpPWFaz-gfpoExqBQHJbJYzOk0gTi0GBumGFWBk0tw_zIqYRtza51qyCO2QIR1Zbai2pN_-CBk5PXOfboGhAzjjiPD8vDOmQoRwiWbN72tRIhNlZFy653TBEvk81y5244IbNWTloe8IWnLCltajkOcAhB-Al8Yk97lVWyUZYfqHoSK1DEZi-iBvMU4nthOA37N47XwxjzAQC49g2z0_U7gaMgCMbFvMO92SuuMVm1lKJYNyUUl8ABEIwQhK7vH1GyT8Dpq1UPo-hn0CpnxEphvdGVhWPfe1uv-ouHWZtvSiSw9T6AoK8-Gl47YHAn9lBcf9-ZqIiN6lhp0dGPxV9w4riZfuLkl-ALgi0kk0s8Pg3fkGPIAqCUMo4h_RNGzs73gsV9N45T7I; _gat=1; AWSALB=PMm+aNhiaBJ1uKQ+lHllm21mYcyABcyUKL3YoZfK6Pr5BvnCrC8AUe+6aM+pGECkUe19hEfq5r2hgCHlFjstcZrFwQvWFYdPSLqeo4Z5qaCV7hcAzW6AmSmrYulX'
 
 # removes condors from list. Will need to be updated to removed condors from other districts
 condors = ['41', '44', '43', '45', '120', '121', '122', '134', '147',
@@ -42,6 +40,13 @@ def remove_condors(df, pump_columns, c_list):
             if int(condor) == find_condor(df, column):
                 df.drop(labels=[column], axis=1, inplace=True)
 
+def find_extra(df, column):
+    try:
+        return re.search(r'''
+                        (?P<extra>>\s\w{2}\s\w+\s>\s)
+                        ''', df[column][0], re.X).group(1)
+    except (TypeError, AttributeError) as e:
+        return 0
 
 def remove_condor_list(pumplist):
     for condor in condors:
@@ -132,6 +137,13 @@ def build_df(csv_file_path, pumplist, holes):
                     to_delete.append(column + 3)
 
         kcf.drop(labels=to_delete, axis=1, inplace=True)
+        for column in kcf.columns:
+            try:
+                holes.append(re.search(r'''
+                       (?P<hole>>\s\w+\s\d\s>)
+                        ''', kcf[column][0], re.X).group(1))
+            except TypeError:
+                pass
         for condor in to_delete:
             if condor in columns:
                 columns.remove(condor)
@@ -188,7 +200,7 @@ if __name__ == '__main__':
     print(os.path.join(os.path.join(combined_directory, r'combined')))
     indicator_dict = {
         'onyx': get_indicators(onyx_group_id, trend),
-        # 'blue': get_indicators(blue_group_id, trend),
+        'blue': get_indicators(blue_group_id, trend),
         'green': get_indicators(green_group_id, trend),
         'gold': get_indicators(gold_group_id, trend),
         'red': get_indicators(red_group_id, trend),
@@ -205,19 +217,13 @@ if __name__ == '__main__':
                 data = stuff.read()
                 pumplist = re.findall(r'''
                                >\s
-                               (?P<pump>[0-9]+)
+                               (?P<pump>[0-9BTP-]+)
                                ?\s>
                                 ''', data, re.X)
                 if trend == 'fluid':
-                    holes = re.findall(r'''
-                               >\s\w+\s>\s
-                               (?P<hole>\w+\s\d\s\w+)
-                                ''', data, re.X)
+                    holes = []
                 else:
-                    holes = re.findall(r'''
-                               >\s\w+\s\w+\s\w+\s>\s
-                               (?P<hole>\w+\s\d\s\w+)
-                                ''', data, re.X)
+                    holes = []
             df = build_df(os.path.join(os.path.join(
                 combined_directory, r'combined'), file), pumplist, holes)
             tag_df = df[df > 5]
@@ -257,11 +263,12 @@ if __name__ == '__main__':
                     percent_diff = percent_diff[percent_diff > 0]
                     pump_change = percent_diff.nlargest(n=3).round().index.tolist()
                     percent_change = percent_diff.nlargest(n=3).round().tolist()
-            if pump_change:
-                outlook.send_email(smallest, largest, averageDA,
-                                   file[:-4], tags, top_change_list=pump_change, top_percent_list=percent_change, trend=trend)
-            else:
-                outlook.send_email(smallest, largest, averageDA, file[:-4], tags, trend=trend)
+            if averageDA > .8:
+                if pump_change:
+                    outlook.send_email(smallest, largest, averageDA,
+                                       file[:-4], tags, top_change_list=pump_change, top_percent_list=percent_change, trend=trend)
+                else:
+                    outlook.send_email(smallest, largest, averageDA, file[:-4], tags, trend=trend)
             os.remove(os.path.join(os.path.join(combined_directory, r'combined'), file))
 
             kcf_final.to_csv(os.path.join(combined_directory, r'combined') + '\\yesterday\\' + file,

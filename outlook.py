@@ -4,6 +4,7 @@ import datetime
 
 
 def send_email(smallest, largest, averageda, color, tags, top_change_list=[], top_percent_list=[], trend=''):
+    print(smallest)
     try:
         if top_change_list:
             top_change_html = """<p>
