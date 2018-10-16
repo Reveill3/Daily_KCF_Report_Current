@@ -16,7 +16,7 @@ red_group_id = 'e50f795d-5536-e711-a50a-12b24a70675e'
 group_list = [green_group_id, onyx_group_id, blue_group_id, gold_group_id, red_group_id]
 
 # This makes KCF server think its me pulling the data.
-cookie = '_ga=GA1.2.636763964.1536756301; _gid=GA1.2.196813936.1537723441; .AspNetCore.Identity.Application=CfDJ8PxB3LM_OtRCn2-bWJr4RL4rBbY6YHVqzoXBZHrHIMlrOiUIuEIFW365Qo84OoZ2bRDY_PUOlJD6nTDlMcOeJi25IUY-Ejvd56ubUicZpMhTezoYQHyrqa-31G0BiOmHDUPkvq7KI4qDN4Sw3m9SmFemSFwn8BFRiGNKTn58ql5kygNl6c2JoMTuGDTqW7zSUDBV_fYDHHg8vpPWFaz-gfpoExqBQHJbJYzOk0gTi0GBumGFWBk0tw_zIqYRtza51qyCO2QIR1Zbai2pN_-CBk5PXOfboGhAzjjiPD8vDOmQoRwiWbN72tRIhNlZFy653TBEvk81y5244IbNWTloe8IWnLCltajkOcAhB-Al8Yk97lVWyUZYfqHoSK1DEZi-iBvMU4nthOA37N47XwxjzAQC49g2z0_U7gaMgCMbFvMO92SuuMVm1lKJYNyUUl8ABEIwQhK7vH1GyT8Dpq1UPo-hn0CpnxEphvdGVhWPfe1uv-ouHWZtvSiSw9T6AoK8-Gl47YHAn9lBcf9-ZqIiN6lhp0dGPxV9w4riZfuLkl-ALgi0kk0s8Pg3fkGPIAqCUMo4h_RNGzs73gsV9N45T7I; _gat=1; AWSALB=PMm+aNhiaBJ1uKQ+lHllm21mYcyABcyUKL3YoZfK6Pr5BvnCrC8AUe+6aM+pGECkUe19hEfq5r2hgCHlFjstcZrFwQvWFYdPSLqeo4Z5qaCV7hcAzW6AmSmrYulX'
+cookie = '_ga=GA1.2.636763964.1536756301; _gid=GA1.2.55196000.1539009802; .AspNetCore.Identity.Application=CfDJ8PxB3LM_OtRCn2-bWJr4RL6FbobFFexSITYgKGvrwnAcyem3k-TxJEL4WZCjeZYrEyTigORluA9yVQbhBZDxsJWHT58l3kjc7HFKzvFhetItVyFQl531AbzdrQ6IHX_JvruNMSXPr8JdRjy6CHV_UtKkwfSAB1URAfqJHJ4CagIQqMfQEComVdJft0Zhyt9jD1tdOQSnVCLn5OqPuEMMth5kH570losWsZwe5a8s_-sGuDh4szdQZXP7M7WjzlB71u1cYQXMjxnxEOwxQ5JJ6Y2EJXsiOqg_sHz5s2NJx1H-pmUjYPUoThGdU63kRVAqZ1Osg7LgTYI6LUVE7HRWHVimlf59d9Mp_sOtBn5vRf5gWbB1yieMzVOOXU3SBUZ9H--ZPBuKr4LunT8bF-VZ56MXzoDHb8JrKUs0vV3XfxiY-yGniTUakw6PTmNbp5mkUsOIJPd30psbGRIyS3KVDasd1_etBSjJuCL7avsleecaVYq-E1KSz0HWfYdIrKQUPV_I3K8Euap4SnkVG5xW5BEexvUlqu_3JM0D3IimVWGiuiOzoUjIAsz82e_d4xHnSWewq_88PN0ak43serOVMSA; _gat=1; AWSALB=LuhQT03Vf5bkhp4gzIMj1MNdRTiSVC93trBVILp/enVsASF2Q7A1p+Hd9254FEJMCEzc75ywQD6msuwUAXP3eB0VCTRK2FxParBEGOj+1cxC9YjIXQZSRv/VkgUG'
 
 # removes condors from list. Will need to be updated to removed condors from other districts
 condors = ['41', '44', '43', '45', '120', '121', '122', '134', '147',
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     indicator_dict = {
         'onyx': get_indicators(onyx_group_id, trend),
         'blue': get_indicators(blue_group_id, trend),
-        'green': get_indicators(green_group_id, trend),
+        # 'green': get_indicators(green_group_id, trend),
         'gold': get_indicators(gold_group_id, trend),
         'red': get_indicators(red_group_id, trend),
     }
