@@ -20,7 +20,7 @@ cookie = '_ga=GA1.2.636763964.1536756301; _gid=GA1.2.55196000.1539009802; .AspNe
 
 # removes condors from list. Will need to be updated to removed condors from other districts
 condors = ['41', '44', '43', '45', '120', '121', '122', '134', '147',
-           '149', '164', '181', '183', '185', '190', '189']
+           '149', '164', '181', '183', '185', '190', '189', '737', '753', '743']
 
 
 def find_condor(df, column):
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     indicator_dict = {
         'onyx': get_indicators(onyx_group_id, trend),
         'blue': get_indicators(blue_group_id, trend),
-        # 'green': get_indicators(green_group_id, trend),
+        'green': get_indicators(green_group_id, trend),
         'gold': get_indicators(gold_group_id, trend),
         'red': get_indicators(red_group_id, trend),
     }
