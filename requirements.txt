@@ -46,7 +46,7 @@ filelock==2.0.13
 flake8==3.5.0
 Flask==0.12.2
 Flask-Bcrypt==0.7.1
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 gevent==1.2.2
 glob2==0.6
 greenlet==0.4.12
